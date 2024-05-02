@@ -9,6 +9,10 @@ dependencies:
   cupertino_icons: ^1.0.6
   flutter_screenutil: 5.9.0
   get: 4.6.6
+  connectivity: 3.0.6
+  geolocator: 11.0.0
+  http: 1.2.1
+  fluttertoast: 8.2.5
   flutter: 
     sdk: flutter
 
