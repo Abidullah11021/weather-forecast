@@ -1,16 +1,13 @@
-# weather_forecast
+# Weather App
 
-A new Flutter project.
+A simple weather application built using Flutter that fetches and displays real-time weather data and a 5-day weather forecast.
+
+## Features
+
+- Fetches weather data based on the user's current location or a user-specified location.
+- Displays location name, current temperature, humidity, wind speed, and weather condition.
+- Handles errors gracefully, including no internet connection.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+To run this app, you need to have Flutter installed on your system.
