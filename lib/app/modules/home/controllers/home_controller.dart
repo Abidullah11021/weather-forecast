@@ -23,7 +23,7 @@ class HomeController extends GetxController {
   LocationPermission? permission;
   String weatherApiKey = 'fa6daaf4450fa33c9e85933fbbd70d30';
   Rx<bool> isLoading = true.obs;
-  late Weather weather;
+  late Rx<Weather> weather;
   late WeatherService weatherService;
 
   /// [check internet connection]
@@ -87,15 +87,42 @@ class HomeController extends GetxController {
     return position;
   }
 
+  /// [function for getting current location weather]
   Future<void> fetchWeatherByLocation() async {
-    log("entered fetching");
     if (await checkConnectivity()) {
       var weatherDataResult =
           await weatherService.getWeatherByLocation(latitude!, longitude!);
 
-      weather = Weather.fromJson(weatherDataResult);
+      weather = Weather.fromJson(weatherDataResult).obs;
 
       isLoading.value = false;
+    } else {
+      Fluttertoast.showToast(
+          msg: "No internet connection",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          backgroundColor: Colors.blue,
+          textColor: Colors.white,
+          fontSize: 16.sp);
+    }
+  }
+
+  /// [function for getting weather of entered city name by user]
+
+  Future<void> fetchWeatherByCity(String cityName) async {
+    if (await checkConnectivity()) {
+      try {
+        var weatherDataResult = await weatherService.getWeatherByCity(cityName);
+        weather.value = Weather.fromJson(weatherDataResult);
+      } on Exception catch (e) {
+        Fluttertoast.showToast(
+            msg: e.toString(),
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            backgroundColor: Colors.blue,
+            textColor: Colors.white,
+            fontSize: 16.sp);
+      }
     } else {
       Fluttertoast.showToast(
           msg: "No internet connection",
@@ -120,19 +147,16 @@ class HomeController extends GetxController {
                     Get.back();
                     determinePosition();
                   },
-                  child: Text("ok"))
+                  child: const Text("ok"))
             ],
           );
         });
   }
 
   @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
   void onClose() {
+    isLoading.close();
+    weather.close();
     super.onClose();
   }
 }
